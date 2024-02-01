@@ -17,7 +17,7 @@ Neuron::Neuron(int parentNum, Neuron* parentNeurons, ActivationFunction* af): pa
 
 Neuron::~Neuron()
 {
-	delete[] weights;
+	delete[parentNum] weights;
 }
 
 DATATYPE Neuron::forwardPropagation()
