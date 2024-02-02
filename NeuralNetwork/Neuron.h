@@ -5,25 +5,28 @@
 #include "ActivationFunction.h"
 
 
-
 class Neuron
 {
 public:
+	int num;
+
 	int parentNum;
-	Neuron* parentNeurons;
+	DATATYPE** pOuts;
 	DATATYPE* weights;
 	DATATYPE bias;
 
-	DATATYPE sum;
-	DATATYPE out;
+	DATATYPE* sum;
+	DATATYPE* out;
 
 	ActivationFunction* af;
 
-	Neuron(int parentNum, Neuron* parentNeurons, ActivationFunction* af);
+	Neuron(int num, int parentNum, ActivationFunction* af);
 	~Neuron();
 
-	DATATYPE forwardPropagation();
+	DATATYPE* forwardPropagation(DATATYPE** pOuts);
 
-	std::vector<DATATYPE> backPropagation(DATATYPE y);
+	DATATYPE* backPropagation(DATATYPE* y);
+
+	DATATYPE getLoss(DATATYPE* y);
 };
 
