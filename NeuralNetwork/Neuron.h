@@ -11,7 +11,7 @@ public:
 	int num;
 
 	int parentNum;
-	DATATYPE** pOuts;
+	DATATYPE* pOuts;
 	DATATYPE* weights;
 	DATATYPE bias;
 
@@ -23,7 +23,7 @@ public:
 	Neuron(int num, int parentNum, ActivationFunction* af);
 	~Neuron();
 
-	DATATYPE* forwardPropagation(DATATYPE** pOuts);
+	DATATYPE* forwardPropagation(DATATYPE* pOuts);
 
 	DATATYPE* backPropagation(DATATYPE* y);
 
