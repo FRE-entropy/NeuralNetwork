@@ -11,10 +11,11 @@ class Neuron
 public:
 	int parentNum;
 	Neuron* parentNeurons;
-	DATATYPE sum;
-	DATATYPE out;
 	DATATYPE* weights;
 	DATATYPE bias;
+
+	DATATYPE sum;
+	DATATYPE out;
 
 	ActivationFunction* af;
 
