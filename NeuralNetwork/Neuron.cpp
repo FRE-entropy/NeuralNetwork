@@ -29,7 +29,7 @@ Neuron::~Neuron()
 	}
 }
 
-DATATYPE* Neuron::forwardPropagation(DATATYPE* pOuts)
+DATATYPE* Neuron::forwardPropagation(DATATYPE** pOuts)
 {
 	this->pOuts = pOuts;
 	for (int i = 0; i < num; i++)
@@ -37,7 +37,7 @@ DATATYPE* Neuron::forwardPropagation(DATATYPE* pOuts)
 		sum[i] = 0;
 		for (int j = 0; j < parentNum; j++)
 		{
-			sum[i] += pOuts[j * num + i] * weights[j];
+			sum[i] += pOuts[j][i] * weights[j];
 		}
 		sum[i] += bias;
 	}
@@ -74,7 +74,7 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 		change = 0;
 		for (int j = 0; j < num; j++)
 		{
-			change += temp[j] * pOuts[i * num + j];
+			change += temp[j] * pOuts[i][j];
 		}
 		weights[i] -= change / num * rate;
 	}
