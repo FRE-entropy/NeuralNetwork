@@ -14,13 +14,15 @@ public:
 	DATATYPE* pOuts;
 	DATATYPE* weights;
 	DATATYPE bias;
+	DATATYPE rate;
 
 	DATATYPE* sum;
 	DATATYPE* out;
+	DATATYPE* temp;
 
 	ActivationFunction* af;
 
-	Neuron(int num, int parentNum, ActivationFunction* af);
+	Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Neuron();
 
 	DATATYPE* forwardPropagation(DATATYPE* pOuts);

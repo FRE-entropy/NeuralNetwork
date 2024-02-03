@@ -1,7 +1,7 @@
 #include "Neuron.h"
 
-Neuron::Neuron(int num, int parentNum, ActivationFunction* af) :
-	num(num), parentNum(parentNum), af(af), pOuts(nullptr)
+Neuron::Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate) :
+	num(num), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
 {
 	std::default_random_engine e;
 	std::uniform_int_distribution<int> u(0, 100000000);
@@ -17,6 +17,7 @@ Neuron::Neuron(int num, int parentNum, ActivationFunction* af) :
 
 	sum = new DATATYPE[num];
 	out = new DATATYPE[num];
+	temp = new DATATYPE[num];
 }
 
 Neuron::~Neuron()
@@ -38,10 +39,11 @@ DATATYPE* Neuron::forwardPropagation(DATATYPE* pOuts)
 		{
 			sum[i] += pOuts[j * num + i] * weights[j];
 		}
+		sum[i] += bias;
 	}
 	for (int i = 0; i < num; i++)
 	{
-		out[i] = af->AF(sum[i] + bias);
+		out[i] = af->AF(sum[i]);
 	}
 	return out;
 }
@@ -50,7 +52,6 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 {
 	DATATYPE* parent_y_s = new DATATYPE[parentNum];
 
-	DATATYPE* temp = new DATATYPE[num];
 	DATATYPE change;
 
 	for (int i = 0; i < num; i++)
@@ -65,7 +66,7 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 		{
 			change += temp[j] * weights[i];
 		}
-		parent_y_s[i] = -change / num;
+		parent_y_s[i] = -change / num * rate;
 	}
 
 
@@ -75,7 +76,7 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 		{
 			change += temp[j] * pOuts[i * num + j];
 		}
-		weights[i] -= change / num;
+		weights[i] -= change / num * rate;
 	}
 
 	change = 0;
@@ -83,9 +84,8 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 	{
 		change += temp[i];
 	}
-	bias -= change / num;
+	bias -= change / num * rate;
 
-	delete[num] temp;
 	return parent_y_s;
 }
 

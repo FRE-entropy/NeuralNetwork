@@ -6,7 +6,7 @@
 
 int main()
 {
-	Neuron* n = new Neuron(4, 2, new sigmoid);
+	Neuron* n = new Neuron(4, 2, new ReLU, 0.1);
 
 	double pOuts[2][4] = {
 		{0, 0, 1, 1},
@@ -24,7 +24,7 @@ int main()
 		{
 			break;
 		}
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			out = n->forwardPropagation((DATATYPE*)pOuts);
 			n->backPropagation(y);
