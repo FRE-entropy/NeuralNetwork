@@ -59,29 +59,30 @@ int main()
 	DATATYPE x[] = { 0, 0, 0, 1 };
 	y[0] = x;
 
-	Layer* l1 = new Layer(4, 3, 2, new sigmoid);
-	Layer* l2 = new Layer(4, 1, 3, new sigmoid);
+	Layer* l1 = new Layer(4, 2, 5, new ReLU);
+	Layer* l2 = new Layer(4, 5, 10, new sigmoid);
+	Layer* l3 = new Layer(4, 10, 5, new sigmoid);
+	Layer* l4 = new Layer(4, 5, 1, new sigmoid);
 
-	while (true)
+	DATATYPE r = 1;
+	while (r > 0.001)
 	{
-		int x;
-		std::cin >> x;
-		if (x == 0)
-		{
-			break;
-		}
-		for (int i = 0; i < 100; i++)
-		{
-			DATATYPE** temp = l1->forwardPropagation(TestData);
-			DATATYPE** out = l2->forwardPropagation(temp);
+		DATATYPE** temp = l1->forwardPropagation(TestData);
+		temp = l2->forwardPropagation(temp);
+		temp = l3->forwardPropagation(temp);
+		DATATYPE** out = l4->forwardPropagation(temp);
 
-			temp = l2->backPropagation(l2->getChange(y));
-			l1->backPropagation(temp);
+		temp = l4->backPropagation(l4->getChange(y));
+		temp = l3->backPropagation(temp);
+		temp = l2->backPropagation(temp);
+		l1->backPropagation(temp);
 
-			std::cout << "out: " << out[0][0] << out[0][1] << out[0][2] << out[0][3] << std::endl;
-			std::cout << "loss: " << l2->getLoss(y) << std::endl;
-		}
+		r = l4->getLoss(y);
+
+		std::cout << "out: " << out[0][0] << " " << out[0][1] << " " << out[0][2] << " " << out[0][3] << std::endl;
+		std::cout << "loss: " << r << std::endl;
 	}
+
 	DATATYPE* TestData2[2];
 	DATATYPE a2[] = { 0, 0, 0, 0 };
 	DATATYPE b2[] = { 0, 0, 0, 0 };
@@ -97,8 +98,10 @@ int main()
 		std::cout << "data: ";
 		std::cin >> TestData2[0][0] >> TestData2[1][0];
 
-		DATATYPE** temp = l1->forwardPropagation(TestData2);
-		DATATYPE** out = l2->forwardPropagation(temp);
+		DATATYPE** temp = l1->forwardPropagation(TestData);
+		temp = l2->forwardPropagation(temp);
+		temp = l3->forwardPropagation(temp);
+		DATATYPE** out = l4->forwardPropagation(temp);
 
 		std::cout << "out: " << out[0][0] << std::endl;
 	}

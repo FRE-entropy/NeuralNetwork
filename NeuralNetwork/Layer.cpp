@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-Layer::Layer(int sampleSize, int neuronNum, int parentNum, ActivationFunction* af, DATATYPE rate):
+Layer::Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate):
 	sampleSize(sampleSize), neuronNum(neuronNum), parentNum(parentNum)
 {
 	neurons = new Neuron * [neuronNum];

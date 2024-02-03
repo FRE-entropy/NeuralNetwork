@@ -13,7 +13,7 @@ public:
 	int parentNum;
 	Neuron** neurons;
 
-	Layer(int sampleSize, int neuronNum, int parentNum, ActivationFunction* af, DATATYPE rate = 1);
+	Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Layer();
 
 	DATATYPE** forwardPropagation(DATATYPE** pOuts);
