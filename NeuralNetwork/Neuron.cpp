@@ -22,11 +22,10 @@ Neuron::Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate) :
 
 Neuron::~Neuron()
 {
-	delete[parentNum] weights;
+	if (weights != NULL)
+		delete[] weights;
 	if (af != NULL)
-	{
 		delete af;
-	}
 }
 
 DATATYPE* Neuron::forwardPropagation(DATATYPE** pOuts)
@@ -48,25 +47,25 @@ DATATYPE* Neuron::forwardPropagation(DATATYPE** pOuts)
 	return out;
 }
 
-DATATYPE* Neuron::backPropagation(DATATYPE* y)
+DATATYPE** Neuron::backPropagation(DATATYPE* target)
 {
-	DATATYPE* parent_y_s = new DATATYPE[parentNum];
+	DATATYPE** parent_y_s = new DATATYPE*[parentNum];
 
-	DATATYPE change;
+	DATATYPE change, * changes;
 
 	for (int i = 0; i < num; i++)
 	{
-		temp[i] = (2 * (out[i] - y[i])) * af->ADF(sum[i]);
+		temp[i] = target[i] * af->ADF(sum[i]);
 	}
 
 	for (int i = 0; i < parentNum; i++)
 	{
-		change = 0;
+		changes = new DATATYPE[num];
 		for (int j = 0; j < num; j++)
 		{
-			change += temp[j] * weights[i];
+			changes[j] = temp[j] * weights[i];
 		}
-		parent_y_s[i] = -change / num * rate;
+		parent_y_s[i] = changes;
 	}
 
 
@@ -89,6 +88,16 @@ DATATYPE* Neuron::backPropagation(DATATYPE* y)
 	return parent_y_s;
 }
 
+DATATYPE* Neuron::getChange(DATATYPE* y)
+{
+	DATATYPE* change = new DATATYPE[num];
+	for (int i = 0; i < num; i++)
+	{
+		change[i] = (2 * (out[i] - y[i]));
+	}
+	return change;
+}
+
 DATATYPE Neuron::getLoss(DATATYPE* y)
 {
 	DATATYPE loss = 0;
@@ -96,7 +105,6 @@ DATATYPE Neuron::getLoss(DATATYPE* y)
 	{
 		loss += pow(out[i] - y[i], 2);
 	}
-
 	return loss / num;
 }
 

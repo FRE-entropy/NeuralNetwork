@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <random>
 #include "common.h"
 #include "ActivationFunction.h"
@@ -9,7 +8,6 @@ class Neuron
 {
 public:
 	int num;
-
 	int parentNum;
 	DATATYPE** pOuts;
 	DATATYPE* weights;
@@ -27,7 +25,9 @@ public:
 
 	DATATYPE* forwardPropagation(DATATYPE** pOuts);
 
-	DATATYPE* backPropagation(DATATYPE* y);
+	DATATYPE** backPropagation(DATATYPE* target);
+
+	DATATYPE* getChange(DATATYPE* y);
 
 	DATATYPE getLoss(DATATYPE* y);
 };
