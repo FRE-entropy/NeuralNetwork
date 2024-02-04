@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "common.h"
 #include "Neuron.h"
 #include "ActivationFunction.h"
@@ -9,9 +8,11 @@ class Layer
 {
 public:
 	int sampleSize;
-	int neuronNum;
-	int parentNum;
+	int neuronNumber;
+	int parentNumber;
 	Neuron** neurons;
+	DATATYPE** out;
+	DATATYPE** y;
 
 	Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Layer();
@@ -22,6 +23,6 @@ public:
 
 	DATATYPE** getChange(DATATYPE** y);
 
-	DATATYPE getLoss(DATATYPE** y);
+	DATATYPE getLoss();
 };
 
