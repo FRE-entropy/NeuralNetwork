@@ -18,6 +18,9 @@ private:
 	DATATYPE* out;
 	DATATYPE* temp;
 
+	DATATYPE** parentChange;
+	DATATYPE* change;
+
 	ActivationFunction* af;
 
 public:
