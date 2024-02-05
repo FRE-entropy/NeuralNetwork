@@ -1,12 +1,12 @@
 #include "Neuron.h"
 
 
-Neuron::Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate) :
-	samplesNum(num), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
+Neuron::Neuron(int samplesNum, int parentNum, ActivationFunction* af, DATATYPE rate) :
+	samplesNum(samplesNum), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
 {
 	srand(time(NULL));
 
-	weights = new DATATYPE[parentNum];
+	weights = new DATATYPE[parentNum]; 
 
 	for (int i = 0; i < parentNum; i++) {
 		weights[i] = random();
@@ -14,9 +14,9 @@ Neuron::Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate) :
 
 	bias = random();
 
-	sum = new DATATYPE[num];
-	out = new DATATYPE[num];
-	temp = new DATATYPE[num];
+	sum = new DATATYPE[samplesNum];
+	out = new DATATYPE[samplesNum];
+	temp = new DATATYPE[samplesNum];
 }
 
 Neuron::~Neuron()

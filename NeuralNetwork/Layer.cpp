@@ -1,28 +1,46 @@
 #include "Layer.h"
 
 
-Layer::Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate):
-	sampleSize(sampleSize), neuronNumber(neuronNum), parentNumber(parentNum), out(nullptr), y(nullptr)
+Layer::Layer(int sampleSize, int parentNumber, int neuronNumber, ActivationFunction* af, DATATYPE rate):
+	sampleSize(sampleSize), neuronNumber(neuronNumber), parentNumber(parentNumber), out(nullptr), y(nullptr)
 {
-	neurons = new Neuron * [neuronNum];
-	for (int i = 0; i < neuronNum; i++)
+	neurons = new Neuron * [neuronNumber];
+	for (int i = 0; i < neuronNumber; i++)
 	{
-		neurons[i] = new Neuron(sampleSize, parentNum, af, rate);
+		neurons[i] = new Neuron(sampleSize, parentNumber, af, rate);
 	}
 
 	out = new DATATYPE * [neuronNumber];
+
 	parentChanges = new DATATYPE * [parentNumber];
+	for (int i = 0; i < parentNumber; i++)
+	{
+		parentChanges[i] = new DATATYPE[sampleSize];
+	}
+
 	changes = new DATATYPE * [neuronNumber];
 }
 
 Layer::~Layer()
 {
 	if (neurons != NULL)
+	{
+		for (int i = 0; i < neuronNumber; i++)
+		{
+			delete[] neurons[i];
+		}
 		delete[] neurons;
+	}
 	if (out != NULL)
 		delete[] out;
 	if (parentChanges != NULL)
+	{
+		for (int i = 0; i < parentNumber; i++)
+		{
+			delete[] parentChanges[i];
+		}
 		delete[] parentChanges;
+	}
 	if (changes != NULL)
 		delete[] changes;
 }
@@ -41,7 +59,6 @@ DATATYPE** Layer::backPropagation(DATATYPE** y)
 	DATATYPE** temp;
 	for (int i = 0; i < parentNumber; i++)
 	{
-		parentChanges[i] = new DATATYPE[sampleSize];
 		for (int j = 0; j < sampleSize; j++)
 		{
 			parentChanges[i][j] = 0;
