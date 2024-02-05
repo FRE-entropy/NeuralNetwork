@@ -73,7 +73,6 @@ DATATYPE** Neuron::backPropagation(DATATYPE* target)
 		parent_y_s[i] = changes;
 	}
 
-
 	for (int i = 0; i < parentNum; i++) {
 		change = 0;
 		for (int j = 0; j < samplesNum; j++)
@@ -115,7 +114,6 @@ DATATYPE Neuron::getLoss(DATATYPE* y)
 
 DATATYPE Neuron::random()
 {
-	std::cout << (rand() % 10000) / 10000.0 << std::endl;
 	return (rand() % 10000) / 10000.0;
 }
 

@@ -12,6 +12,8 @@ public:
 	int parentNumber;
 	Neuron** neurons;
 	DATATYPE** out;
+	DATATYPE** parentChanges;
+	DATATYPE** changes;
 	DATATYPE** y;
 
 	Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate = 1);
