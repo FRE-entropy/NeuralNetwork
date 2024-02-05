@@ -12,7 +12,7 @@ Neuron::Neuron(int samplesNum, int parentNum, ActivationFunction* af, DATATYPE r
 		weights[i] = random();
 	}
 
-	bias = random();
+	bias = 0;
 
 	sum = new DATATYPE[samplesNum];
 	out = new DATATYPE[samplesNum];

@@ -22,22 +22,25 @@ int main()
 
 
 	Model* m = new Model(4, 2);
-	m->addLayer(5, new ReLU);
-	m->addLayer(3, new ReLU);
+	m->addLayer(10, new ReLU, 0.1);
 	m->addLayer(1, new sigmoid);
 	DATATYPE loss = 1;
 	DATATYPE** out = nullptr;
 	int n = 100000;
 	auto start = std::chrono::system_clock::now();
 	//while (n--)
-	while (loss > 0.01)
+	while (loss > 0.001)
 	{
 		out = m->training(trainingData, y);
+		//for (int i = 0; i < 100; i++)
+		//{
+		//	out = m->training(trainingData, y);
+		//}
 		loss = m->getLoss();
+		//std::cout << "out: " << out[0][0] << " " << out[0][1] << " " << out[0][2] << " " << out[0][3] << std::endl;
+		//std::cout << "loss: " << loss << std::endl;
 	}
 
-	std::cout << "out: " << out[0][0] << " " << out[0][1] << " " << out[0][2] << " " << out[0][3] << std::endl;
-	std::cout << "loss: " << loss << std::endl;
 
 	auto end = std::chrono::system_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
