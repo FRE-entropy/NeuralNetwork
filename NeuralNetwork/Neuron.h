@@ -6,8 +6,8 @@
 
 class Neuron
 {
-public:
-	int num;
+private:
+	int samplesNum;
 	int parentNum;
 	DATATYPE** pOuts;
 	DATATYPE* weights;
@@ -20,6 +20,7 @@ public:
 
 	ActivationFunction* af;
 
+public:
 	Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Neuron();
 
@@ -30,5 +31,7 @@ public:
 	DATATYPE* getChange(DATATYPE* y);
 
 	DATATYPE getLoss(DATATYPE* y);
+private:
+	DATATYPE random();
 };
 

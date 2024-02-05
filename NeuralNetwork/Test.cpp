@@ -9,7 +9,6 @@
 
 int main()
 {
-
 	DATATYPE* trainingData[2];
 	DATATYPE a[] = { 0, 0, 1, 1 };
 	DATATYPE b[] = { 0, 1, 0, 1 };
@@ -37,6 +36,7 @@ int main()
 
 	while (true)
 	{
+		std::cout << "test data: ";
 		std::cin >> testData[0] >> testData[1];
 
 		DATATYPE* testOut = m->prediction(testData);

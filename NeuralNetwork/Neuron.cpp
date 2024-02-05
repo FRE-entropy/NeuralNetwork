@@ -1,19 +1,18 @@
 #include "Neuron.h"
 
+
 Neuron::Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate) :
-	num(num), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
+	samplesNum(num), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
 {
-	std::default_random_engine e;
-	std::uniform_int_distribution<int> u(0, 100000000);
-	e.seed((unsigned long)time(0));
+	srand(time(NULL));
 
 	weights = new DATATYPE[parentNum];
 
 	for (int i = 0; i < parentNum; i++) {
-		weights[i] = (u(e) / 100000000.0);
+		weights[i] = random();
 	}
 
-	bias = (u(e) / 100000000.0);
+	bias = random();
 
 	sum = new DATATYPE[num];
 	out = new DATATYPE[num];
@@ -26,12 +25,18 @@ Neuron::~Neuron()
 		delete[] weights;
 	if (af != NULL)
 		delete af;
+	if (sum != NULL)
+		delete[] sum;
+	if (out != NULL)
+		delete[] out;
+	if (temp != NULL)
+		delete[] temp;
 }
 
 DATATYPE* Neuron::forwardPropagation(DATATYPE** pOuts)
 {
 	this->pOuts = pOuts;
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < samplesNum; i++)
 	{
 		sum[i] = 0;
 		for (int j = 0; j < parentNum; j++)
@@ -40,7 +45,7 @@ DATATYPE* Neuron::forwardPropagation(DATATYPE** pOuts)
 		}
 		sum[i] += bias;
 	}
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < samplesNum; i++)
 	{
 		out[i] = af->AF(sum[i]);
 	}
@@ -53,15 +58,15 @@ DATATYPE** Neuron::backPropagation(DATATYPE* target)
 
 	DATATYPE change, * changes;
 
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < samplesNum; i++)
 	{
 		temp[i] = target[i] * af->ADF(sum[i]);
 	}
 
 	for (int i = 0; i < parentNum; i++)
 	{
-		changes = new DATATYPE[num];
-		for (int j = 0; j < num; j++)
+		changes = new DATATYPE[samplesNum];
+		for (int j = 0; j < samplesNum; j++)
 		{
 			changes[j] = temp[j] * weights[i];
 		}
@@ -71,27 +76,27 @@ DATATYPE** Neuron::backPropagation(DATATYPE* target)
 
 	for (int i = 0; i < parentNum; i++) {
 		change = 0;
-		for (int j = 0; j < num; j++)
+		for (int j = 0; j < samplesNum; j++)
 		{
 			change += temp[j] * pOuts[i][j];
 		}
-		weights[i] -= change / num * rate;
+		weights[i] -= change / samplesNum * rate;
 	}
 
 	change = 0;
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < samplesNum; i++)
 	{
 		change += temp[i];
 	}
-	bias -= change / num * rate;
+	bias -= change / samplesNum * rate;
 
 	return parent_y_s;
 }
 
 DATATYPE* Neuron::getChange(DATATYPE* y)
 {
-	DATATYPE* change = new DATATYPE[num];
-	for (int i = 0; i < num; i++)
+	DATATYPE* change = new DATATYPE[samplesNum];
+	for (int i = 0; i < samplesNum; i++)
 	{
 		change[i] = (2 * (out[i] - y[i]));
 	}
@@ -101,10 +106,16 @@ DATATYPE* Neuron::getChange(DATATYPE* y)
 DATATYPE Neuron::getLoss(DATATYPE* y)
 {
 	DATATYPE loss = 0;
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < samplesNum; i++)
 	{
 		loss += pow(out[i] - y[i], 2);
 	}
-	return loss / num;
+	return loss / samplesNum;
+}
+
+DATATYPE Neuron::random()
+{
+	std::cout << (rand() % 10000) / 10000.0 << std::endl;
+	return (rand() % 10000) / 10000.0;
 }
 
