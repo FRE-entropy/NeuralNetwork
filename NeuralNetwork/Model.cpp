@@ -82,6 +82,16 @@ void Model::save(const char* path)
 
 void Model::load(const char* path)
 {
+	std::string s;
+	std::ifstream f;
+	f.open(path);
+	int i = 0;
+	while (getline(f, s))
+	{
+		layers->at(i)->load(s);
+		i++;
+	}
+	f.close();
 }
 
 

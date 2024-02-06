@@ -143,12 +143,13 @@ void Neuron::load(std::string data)
 	size_t index = data.find(",");
 	bias = std::stold(data.substr(index + 1));
 	std::string temp = data.substr(0, index);
-	for (int i = 0; i < parentNum; i++)
+	for (int i = 0; i < parentNum - 1; i++)
 	{
 		size_t index = data.find(" ");
 		weights[i] = std::stold(temp.substr(0, index));
-		temp = temp.substr(index);
+		temp = temp.substr(index + 1);
 	}
+	weights[parentNum - 1] = std::stold(temp);
 }
 
 DATATYPE Neuron::random()

@@ -3,4 +3,4 @@
 #include <string>
 
 
-using DATATYPE = double;
+using DATATYPE = long double;
