@@ -75,6 +75,13 @@ DATATYPE** Layer::backPropagation(DATATYPE** y)
 			}
 		}
 	}
+	for (int i = 0; i < parentNumber; i++)
+	{
+		for (int j = 0; j < sampleSize; j++)
+		{
+			parentChanges[i][j] /= neuronNumber;
+		}
+	}
 	return parentChanges;
 }
 

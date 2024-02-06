@@ -44,7 +44,7 @@ Neuron::~Neuron()
 		}
 		delete[] parentChange;
 	}
-	if (parentChange != NULL)
+	if (change != NULL)
 	{
 		delete[] change;
 	}
@@ -155,5 +155,6 @@ void Neuron::load(std::string data)
 DATATYPE Neuron::random()
 {
 	return (rand() % 10000) / 5000.0 - 1;
+	//return (rand() % 10000) / 10000.0;
 }
 

@@ -23,9 +23,9 @@ int main()
 
 	// 创建模型
 	Model* m = new Model(4, 2);
-	m->addLayer(2, new ReLU);
-	m->addLayer(2, new ReLU);
-	m->addLayer(2, new ReLU);
+	//m->addLayer(2, new ReLU, 0.1);
+	m->addLayer(3, new ReLU);
+	m->addLayer(3, new ReLU);
 	m->addLayer(1, new sigmoid);
 
 	// 开始训练
@@ -37,7 +37,7 @@ int main()
 	while (loss > 0.001)
 	{
 		//out = m->training(trainingData, y);
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 10000; i++)
 		{
 			out = m->training(trainingData, y);
 		}
