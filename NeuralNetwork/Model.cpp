@@ -14,7 +14,7 @@ Model::~Model()
 
 void Model::addLayer(int neuronNumber, ActivationFunction* af, DATATYPE rate)
 {
-	layers->push_back(new Layer(sampleSize, layers->size() == 0? inputLayerNum: layers->back()->neuronNumber, 
+	layers->push_back(new Layer(sampleSize, layers->size() == 0? inputLayerNum: layers->back()->getNeuronNumber(),
 		neuronNumber, af, rate));
 }
 
@@ -58,6 +58,30 @@ DATATYPE* Model::prediction(DATATYPE* data)
 	}
 	DATATYPE** outs = this->forwardPropagation(datas);
 	return outs[0];
+}
+
+std::string Model::to_string()
+{
+	std::string s = "";
+	for (int i = 0; i < layers->size() - 1; i++)
+	{
+		s += layers->at(i)->to_string();
+		s += "\n";
+	}
+	s += layers->at(layers->size() - 1)->to_string();
+	return s;
+}
+
+void Model::save(const char* path)
+{
+	std::ofstream f;
+	f.open(path);
+	f << to_string();
+	f.close();
+}
+
+void Model::load(const char* path)
+{
 }
 
 

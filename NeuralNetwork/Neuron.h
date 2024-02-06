@@ -23,7 +23,7 @@ private:
 	ActivationFunction* af;
 
 public:
-	Neuron(int num, int parentNum, ActivationFunction* af, DATATYPE rate = 1);
+	Neuron(int samplesNum, int parentNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Neuron();
 
 	DATATYPE* forwardPropagation(DATATYPE** pOuts);
@@ -33,6 +33,10 @@ public:
 	DATATYPE* getChange(DATATYPE* y);
 
 	DATATYPE getLoss(DATATYPE* y);
+
+	std::string to_string();
+
+	void load(std::string data);
 private:
 	DATATYPE random();
 };

@@ -27,7 +27,7 @@ Layer::~Layer()
 	{
 		for (int i = 0; i < neuronNumber; i++)
 		{
-			delete[] neurons[i];
+			delete neurons[i];
 		}
 		delete[] neurons;
 	}
@@ -96,4 +96,32 @@ DATATYPE Layer::getLoss()
 		Loss += neurons[i]->getLoss(y[i]);
 	}
 	return Loss / neuronNumber;
+}
+
+int Layer::getNeuronNumber()
+{
+	return neuronNumber;
+}
+
+std::string Layer::to_string()
+{
+	std::string s = "";
+	for (int i = 0; i < neuronNumber - 1; i++)
+	{
+		s += neurons[i]->to_string();
+		s += ";";
+	}
+	s += neurons[neuronNumber - 1]->to_string();
+	return s;
+}
+
+void Layer::load(std::string data)
+{
+	std::string temp = data;
+	for (int i = 0; i < neuronNumber; i++)
+	{
+		size_t index = temp.find(";");
+		neurons[i]->load(temp.substr(0, index));
+		temp = temp.substr(index + 1);
+	}
 }

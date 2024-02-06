@@ -4,7 +4,7 @@
 Neuron::Neuron(int samplesNum, int parentNum, ActivationFunction* af, DATATYPE rate) :
 	samplesNum(samplesNum), parentNum(parentNum), af(af), pOuts(nullptr), rate(rate)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL) + (unsigned int)(unsigned long long)this);
 
 	weights = new DATATYPE[parentNum]; 
 
@@ -30,8 +30,6 @@ Neuron::~Neuron()
 {
 	if (weights != NULL)
 		delete[] weights;
-	if (af != NULL)
-		delete af;
 	if (sum != NULL)
 		delete[] sum;
 	if (out != NULL)
@@ -126,8 +124,35 @@ DATATYPE Neuron::getLoss(DATATYPE* y)
 	return loss / samplesNum;
 }
 
+std::string Neuron::to_string()
+{
+	std::string s = "";
+	for (int i = 0; i < parentNum - 1; i++)
+	{
+		s += std::to_string(weights[i]);
+		s += " ";
+	}
+	s += std::to_string(weights[parentNum - 1]);
+	s += ",";
+	s += std::to_string(bias);
+	return s;
+}
+
+void Neuron::load(std::string data)
+{
+	size_t index = data.find(",");
+	bias = std::stold(data.substr(index + 1));
+	std::string temp = data.substr(0, index);
+	for (int i = 0; i < parentNum; i++)
+	{
+		size_t index = data.find(" ");
+		weights[i] = std::stold(temp.substr(0, index));
+		temp = temp.substr(index);
+	}
+}
+
 DATATYPE Neuron::random()
 {
-	return (rand() % 10000) / 10000.0;
+	return (rand() % 10000) / 5000.0 - 1;
 }
 

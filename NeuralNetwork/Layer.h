@@ -6,7 +6,7 @@
 
 class Layer
 {
-public:
+private:
 	int sampleSize;
 	int neuronNumber;
 	int parentNumber;
@@ -15,7 +15,7 @@ public:
 	DATATYPE** parentChanges;
 	DATATYPE** changes;
 	DATATYPE** y;
-
+public:
 	Layer(int sampleSize, int parentNum, int neuronNum, ActivationFunction* af, DATATYPE rate = 1);
 	~Layer();
 
@@ -26,5 +26,11 @@ public:
 	DATATYPE** getChange(DATATYPE** y);
 
 	DATATYPE getLoss();
+
+	int getNeuronNumber();
+
+	std::string to_string();
+
+	void load(std::string data);
 };
 

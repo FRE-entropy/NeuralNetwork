@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <fstream>
 #include "common.h"
 #include "Layer.h"
 #include "ActivationFunction.h"
@@ -7,12 +8,12 @@
 
 class Model
 {
-public:
+private:
 	std::vector<Layer*>* layers;
 	DATATYPE loss;
 	int sampleSize;
 	int inputLayerNum;
-
+public:
 	Model(int sampleSize, int inputLayerNum);
 	~Model();
 
@@ -27,4 +28,10 @@ public:
 	DATATYPE** training(DATATYPE** data, DATATYPE** y);
 
 	DATATYPE* prediction(DATATYPE* data);
+
+	std::string to_string();
+
+	void save(const char* path);
+
+	void load(const char* path);
 };
